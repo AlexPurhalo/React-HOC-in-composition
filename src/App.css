@@ -1,33 +1,97 @@
-.App {
-  text-align: center;
+#container {
+    color: #333;
+    background: #e25f5fa1;
+    display: grid;
+    grid-template-areas:
+            "nav header"
+            "nav content"
+            "nav footer";
+    grid-template-rows: 60px 10fr 60px;
+    grid-template-columns: 1fr 3fr;
+    grid-gap: 2px;
+    height: 100vh;
+    margin: 0;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+header {
+    background: white;
+    grid-area: header;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+footer {
+    background: white;
+    grid-area: footer;
 }
 
-.App-link {
-  color: #61dafb;
+nav {
+    background: white;
+    grid-area: nav;
+    text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+nav > ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow:hidden;
+    overflow-y:scroll;
+    height: 100vh;
+    background: #e25f5fa1;
+
 }
+
+nav > ul > li {
+    color: #1d1616c9;
+    margin: 2px 0;
+    padding: 10px 0;
+    cursor: pointer;
+    background: white;
+}
+
+nav > ul > li:hover {
+    background: blue;
+    color: white;
+}
+
+#content {
+    background: white;
+    grid-area: content;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    overflow:hidden;
+    overflow-y:scroll;
+    justify-items: center;
+}
+
+#content > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 240px;
+    text-align: center;
+    margin: 30px 0;
+}
+
+#content > div > div > img {
+    width: 180px;
+    height: 180px;
+}
+
+#content > div > div {
+    text-align: center;
+}
+
+@media all and (max-width: 575px) {
+    #container {
+        grid-template-areas:
+                "header"
+                "nav"
+                "content"
+                "footer";
+        grid-template-rows: 60px 2fr 2fr 60px;
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/*sdfsdfsdfsdfd*/
