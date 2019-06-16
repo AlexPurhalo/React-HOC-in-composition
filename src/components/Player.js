@@ -1,13 +1,30 @@
 import React, { Component } from 'react'
-import './Player.css'
+import styled from 'styled-components';
+
+const compose = (...rest) => x => rest.reduceRight((y, f) => f(y), x)
+
+const Footer = styled.footer`
+	background: white;
+	grid-area: footer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`
+
+const getSongId = ({ songs, songId }) => ({
+	songId: songId || (songs.length && songs[0].id),
+	songs
+})
+
+const getSong = ({ songs, songId }) => songs.find(({ id }) => id === songId)
 
 class Player extends Component {
 	render() {
-		const song = this.props.song || this.props.songs[0]
+		const song = compose(getSong, getSongId)(this.props)
 		return (
-			<footer>
-				<audio src={song && song.audio} controls={true}/>
-			</footer>
+			<Footer>
+				{song && <audio src={song && song.audio} controls={true}/>}
+			</Footer>
 		)
 	}
 }

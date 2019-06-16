@@ -1,9 +1,12 @@
 import React from 'react'
 
-import './SearchBar.css'
+import styled from 'styled-components'
 
-const SearchBar = () => (
-	<header id="pageHeader" />
-)
+const Header = styled.header`
+	background: white;
+	grid-area: header;
+`
+
+const SearchBar = () => <Header />
 
 export default SearchBar
