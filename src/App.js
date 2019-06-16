@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import './App.css'
+import { Player, SongsList, SearchBar } from './components'
 
 class App extends Component {
   state = {
-    songs: []
+    songs: [],
+    song: null,
+    isPlaying: false
   }
 
   componentDidMount() {
@@ -14,34 +17,14 @@ class App extends Component {
   }
 
   render() {
-    const { songs } = this.state
     return (
       <div id="container">
-        <header id="pageHeader">
-          <input/>
-        </header>
-        <nav id="nav">
-          <ul>
-            {songs.map(({ title, artist }) => (
-              <li>{artist} - {title}</li>
-            ))}
-          </ul>
-        </nav>
-        <div id="content">
-          {songs.map(({ picture, title, artist}, i) => (
-            <div key={i}>
-              <div>
-                <img className="picture" src={picture} alt=""/>
-                <div>{artist}???????????</div>
-                <div>{title}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-        <footer>Footer</footer>
+        <SearchBar {...this.state} />
+        <SongsList {...this.state} />
+        <Player    {...this.state} />
       </div>
     )
   }
 }
-export default App
 
+export default App
