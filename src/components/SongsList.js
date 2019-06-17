@@ -64,7 +64,7 @@ const SongsList = ({ songs, songId, isPlaying, handleSongChoice }) => (
 		{songs && songs.map(({ id, picture, title, artist}, i) => {
 			const isActive = isPlaying && songId === id
 			return (
-				<ListItem {...{key: i}}>
+				<ListItem {...{key: i}} href="#">
 					<div>
 						<Picture {...{isActive, picture}}>
 							<PlayButton {...{isActive, onClick: () => handleSongChoice(id, !isActive)}} />
