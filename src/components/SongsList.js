@@ -8,7 +8,8 @@ const ListItem = styled.div`
 	max-width: 180px;
 	text-align: center;
 	margin: 30px 0;
-	&:hover { cursor: pointer } 
+	&:hover { cursor: pointer };
+	&:focus {background-color: green} 
 `
 
 const Picture = styled.div`
@@ -59,12 +60,22 @@ const SongTitle = styled.div`
 	font-weight: ${({ isActive }) => isActive ? 900 : 400};
 `
 
-const SongsList = ({ songs, songId, isPlaying, handleSongChoice }) => (
+const SongsList = ({ songs, songId, isPlaying, handleSongChoice }, { songRef }) => (
 	<ContentList id="content">
-		{songs && songs.map(({ id, picture, title, artist}, i) => {
+		{songs && songs.map(({ id, picture, title, artist}) => {
 			const isActive = isPlaying && songId === id
-			return (
-				<ListItem {...{key: i}} href="#">
+			return isActive ? (
+				<ListItem key={id}>
+					<div ref={songRef}>
+						<Picture {...{isActive, picture}}>
+							<PlayButton {...{isActive, onClick: () => handleSongChoice(id, !isActive)}} />
+						</Picture>
+						<ArtistTitle {...{isActive}}>{artist}</ArtistTitle>
+						<SongTitle {...{isActive}}>{title}</SongTitle>
+					</div>
+				</ListItem>
+			) : (
+				<ListItem key={id}>
 					<div>
 						<Picture {...{isActive, picture}}>
 							<PlayButton {...{isActive, onClick: () => handleSongChoice(id, !isActive)}} />
@@ -78,4 +89,4 @@ const SongsList = ({ songs, songId, isPlaying, handleSongChoice }) => (
 	</ContentList>
 )
 
-export default SongsList
+export default React.forwardRef(SongsList)

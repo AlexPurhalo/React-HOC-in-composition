@@ -50,9 +50,9 @@ const Player = ({ isPlaying, songs, songId, handlePlayingState, handleSongChoice
 	const nextSong = songs[songIdx+1]
 	return (
 		<Footer>
-			<audio src={song && song.audio} ref={audioRef} />
+			<audio src={song && song.audio} ref={audioRef}  />
 			{prevSong && <PrevTrackButton onClick={() => handleSongChoice(prevSong.id, true)}/>}
-			<PlayButton onClick={() => handlePlayingState(!isPlaying)} {...{isPlaying: !isPlaying}}/>
+			<PlayButton autoFocus onClick={() => handlePlayingState(!isPlaying)} {...{isPlaying: !isPlaying}}/>
 			{nextSong && <NextTrackButton onClick={() => handleSongChoice(nextSong.id, true)}/>}
 		</Footer>
 	)

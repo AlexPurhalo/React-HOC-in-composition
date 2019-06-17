@@ -22,7 +22,7 @@ const Wrapper = styled.section`
 const App = (props, ref) => (
 	<Wrapper>
 		<SearchBar {...props} />
-		<SongsList {...props} />
+		<SongsList {...props} ref={ref} />
 		<Player    {...props} ref={ref} />
 	</Wrapper>
 )
