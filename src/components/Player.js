@@ -49,13 +49,14 @@ const DurationSection = styled.section`
 
 const ProgressBar = styled.div`
 	width: 50%;
-	height: 10px;
+	height: 15px;
 	background-color: black;
+	cursor: pointer;
 `
 
 const ActiveProgressBar = styled.div`
 	width: ${({ width }) => width}px;
-	height: 10px;
+	height: 100%;
 	background-color: #7abedd;
 `
 
@@ -64,13 +65,14 @@ const preparePlayingTime = (time) => {
 	const seconds = Math.floor(time%60)
 	return `${minutes}:${seconds}`.replace(/^(\d):(\d+)/, `0$1:$2`)
 }
+
 const findSong = (songs, songId) => songs.find(({ id }) => id === songId)
 const findNextSong = (songs, song) 	 => songs[songs.indexOf(song)+1]
 const findPrevSong = (songs, song) 	 => songs[songs.indexOf(song)-1]
 const findCurrBarWidth = (currTime, duration, barSize) => duration && currTime * barSize / duration
 
 const Player = (props, ref) => {
-	const { currentTime, duration, isPlaying, songs, songId, handlePlayingState, handleSongChoice, barSize } = props
+	const { currentTime, duration, isPlaying, songs, songId, handlePlayingState, handleSongChoice, barSize, handleCurrTimeUpdate } = props
 	const { audioRef, progressBarRef, playBtn 																														 } = ref
 
 	const song = findSong(songs, songId), prevSong = findPrevSong(songs, song), nextSong = findNextSong(songs, song)
@@ -91,7 +93,7 @@ const Player = (props, ref) => {
 				<NextTrackButton onClick={() => handleSongChoice(nextSong.id, true)}/>
 			)}
 			<DurationSection>{preparePlayingTime(currentTime)}</DurationSection>
-			<ProgressBar ref={progressBarRef}>
+			<ProgressBar onClick={e => handleCurrTimeUpdate(e, barSize)} ref={progressBarRef}>
 				<ActiveProgressBar width={currBarWidth}/>
 			</ProgressBar>
 			<DurationSection>{preparePlayingTime(duration)}</DurationSection>

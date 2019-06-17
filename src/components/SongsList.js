@@ -65,13 +65,10 @@ const SongsList = ({ songs, songId, isPlaying, handleSongChoice }, { songRef }) 
 		{songs && songs.map(({ id, picture, title, artist}) => {
 			const isActive = isPlaying && songId === id
 			return (
-				<ListItem key={id}>
+				<ListItem key={id} onClick={() => handleSongChoice(id, !isActive)}>
 					<div ref={isActive ? songRef : null}>
 						<Picture isActive={isActive} picture={picture}>
-							<PlayButton
-								isActive={isActive}
-								onClick={() => handleSongChoice(id, !isActive)}
-							/>
+							<PlayButton isActive={isActive} />
 						</Picture>
 						<ArtistTitle isActive={isActive}>{artist}</ArtistTitle>
 						<SongTitle isActive={isActive}>{title}</SongTitle>
