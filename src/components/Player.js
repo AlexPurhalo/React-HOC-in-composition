@@ -59,6 +59,9 @@ const ActiveProgressBar = styled.div`
 	background-color: #7abedd;
 `
 
+// audio.currentTime * defaultBarSize / audio.duration
+
+
 const Player = ({ currentTime, duration, isPlaying, songs, songId, handlePlayingState, handleSongChoice }, { audioRef }) => {
 	const song = songs.find(({ id }) => id === songId)
 	const songIdx = songs.indexOf(song)

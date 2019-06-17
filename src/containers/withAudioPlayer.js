@@ -19,6 +19,7 @@ const withAudioPlayer = (WrappedComponent) => {
 		componentDidUpdate(prevProps) {
 			const { songId: nextSongId, isPlaying: nextIsPlaying } = this.props
 			const { songId: prevSongId, isPlaying: prevIsPlaying } = prevProps
+
 			const audio = this.props.forwardedRef.audioRef.current
 			const song  = this.props.forwardedRef.songRef.current
 
@@ -27,23 +28,22 @@ const withAudioPlayer = (WrappedComponent) => {
 			const isPlaying 		= nextIsPlaying
 
 			// console.log(audio.__proto__.__proto__)
-			//
-			if (isSongChanged) song.scrollIntoView({block: "center", behavior: "smooth"})
+			if (isSongChanged) song.scrollIntoView({ block: "center", behavior: "smooth" })
 			if (isSongChanged) audio.play()
 			if (isPlayChanged) isPlaying ? audio.play() : audio.pause()
 		}
 
 		render () {
-			const {forwardedRef, ...restProps} = this.props;
+			const { forwardedRef, ...restProps } = this.props;
 			return (
 				<WrappedComponent {...restProps} {...this.state} ref={forwardedRef} />
 			)
 		}
 	}
 
-	return forwardRef((props, ref) => {
-		return <WithAudioPlayer {...props} forwardedRef={ref} />
-	})
+	return forwardRef((props, ref) => (
+		<WithAudioPlayer {...props} forwardedRef={ref} />
+	))
 }
 
 export default withAudioPlayer
