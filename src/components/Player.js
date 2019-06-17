@@ -54,28 +54,41 @@ const ProgressBar = styled.div`
 `
 
 const ActiveProgressBar = styled.div`
-	width: 10%;
+	width: ${({ width }) => width}px;
 	height: 10px;
 	background-color: #7abedd;
 `
 
-// audio.currentTime * defaultBarSize / audio.duration
+const preparePlayingTime = (time) => {
+	const minutes = Math.floor(time/60)
+	const seconds = Math.floor(time%60)
+	return `${minutes}:${seconds}`.replace(/^(\d):(\d+)/, `0$1:$2`)
+}
 
+const computeBarWidth = ({ current: bar }) => bar ? getComputedStyle(bar).width : 0
 
-const Player = ({ currentTime, duration, isPlaying, songs, songId, handlePlayingState, handleSongChoice }, { audioRef }) => {
+const Player = ({ currentTime, duration, isPlaying, songs, songId, handlePlayingState, handleSongChoice }, { audioRef, progressBarRef }) => {
 	const song = songs.find(({ id }) => id === songId)
 	const songIdx = songs.indexOf(song)
 	const prevSong = songs[songIdx-1]
 	const nextSong = songs[songIdx+1]
+	const currBarWidth = currentTime * parseInt(computeBarWidth(progressBarRef)) / duration
+	console.log(currBarWidth)
 	return (
 		<Footer>
 			<audio src={song && song.audio} ref={audioRef}  />
-			{prevSong && <PrevTrackButton onClick={() => handleSongChoice(prevSong.id, true)}/>}
-			{<PlayButton autoFocus onClick={() => handlePlayingState(!isPlaying)} {...{isPlaying: !isPlaying}}/>}
-			{nextSong && <NextTrackButton onClick={() => handleSongChoice(nextSong.id, true)}/>}
-			<DurationSection>{currentTime}</DurationSection>
-			<ProgressBar><ActiveProgressBar /></ProgressBar>
-			<DurationSection>{duration}</DurationSection>
+			{prevSong && (
+				<PrevTrackButton onClick={() => handleSongChoice(prevSong.id, true)}/>
+			)}
+			<PlayButton autoFocus isPlaying={!isPlaying} onClick={() => handlePlayingState(!isPlaying)} />
+			{nextSong && (
+				<NextTrackButton onClick={() => handleSongChoice(nextSong.id, true)}/>
+			)}
+			<DurationSection>{preparePlayingTime(currentTime)}</DurationSection>
+			<ProgressBar ref={progressBarRef}>
+				<ActiveProgressBar width={currBarWidth}/>
+			</ProgressBar>
+			<DurationSection>{preparePlayingTime(duration)}</DurationSection>
 		</Footer>
 	)
 }
