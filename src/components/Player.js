@@ -67,20 +67,19 @@ const preparePlayingTime = (time) => {
 
 const computeBarWidth = ({ current: bar }) => bar ? getComputedStyle(bar).width : 0
 
-const Player = ({ currentTime, duration, isPlaying, songs, songId, handlePlayingState, handleSongChoice }, { audioRef, progressBarRef }) => {
+const Player = ({ currentTime, duration, isPlaying, songs, songId, handlePlayingState, handleSongChoice }, { audioRef, progressBarRef, playBtn }) => {
 	const song = songs.find(({ id }) => id === songId)
 	const songIdx = songs.indexOf(song)
 	const prevSong = songs[songIdx-1]
 	const nextSong = songs[songIdx+1]
 	const currBarWidth = currentTime * parseInt(computeBarWidth(progressBarRef)) / duration
-	console.log(currBarWidth)
 	return (
 		<Footer>
 			<audio src={song && song.audio} ref={audioRef}  />
 			{prevSong && (
 				<PrevTrackButton onClick={() => handleSongChoice(prevSong.id, true)}/>
 			)}
-			<PlayButton autoFocus isPlaying={!isPlaying} onClick={() => handlePlayingState(!isPlaying)} />
+			<PlayButton ref={playBtn}  autoFocus isPlaying={!isPlaying} onClick={() => handlePlayingState(!isPlaying)} />
 			{nextSong && (
 				<NextTrackButton onClick={() => handleSongChoice(nextSong.id, true)}/>
 			)}

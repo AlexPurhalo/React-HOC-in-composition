@@ -20,16 +20,18 @@ const withAudioPlayer = (WrappedComponent) => {
 			const { songId: nextSongId, isPlaying: nextIsPlaying } = this.props
 			const { songId: prevSongId, isPlaying: prevIsPlaying } = prevProps
 
-			const audio = this.props.forwardedRef.audioRef.current
-			const song  = this.props.forwardedRef.songRef.current
+			const audio   = this.props.forwardedRef.audioRef.current
+			const song    = this.props.forwardedRef.songRef.current
+			const playBtn = this.props.forwardedRef.playBtn.current
 
 			const isSongChanged = nextSongId !== prevSongId
 			const isPlayChanged = prevIsPlaying !== nextIsPlaying
 			const isPlaying 		= nextIsPlaying
-
+			console.log(playBtn)
 			// console.log(audio.__proto__.__proto__)
 			if (isSongChanged) song.scrollIntoView({ block: "center", behavior: "smooth" })
 			if (isSongChanged) audio.play()
+			if (isSongChanged) playBtn.focus()
 			if (isPlayChanged) isPlaying ? audio.play() : audio.pause()
 		}
 
