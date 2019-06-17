@@ -1,11 +1,14 @@
 import React, { Component, forwardRef } from 'react'
 
+const computeBarWidth = ({ current: bar }) => bar ? parseInt(getComputedStyle(bar).width) : 0
+
 const withAudioPlayer = (WrappedComponent) => {
 	class WithAudioPlayer extends Component {
-		state = { duration: 0, currentTime: 0 }
+		state = { duration: 0, currentTime: 0, barSize: 0 }
 
 		componentDidMount() {
-			const { current: audio } = this.props.forwardedRef.audioRef
+			this.setState({ barSize: computeBarWidth(this.props.forwardedRef.progressBarRef) })
+			const audio = this.props.forwardedRef.audioRef.current
 
 			audio.addEventListener("timeupdate", (e) => {
 				this.setState({ currentTime: e.target.currentTime })
@@ -27,11 +30,10 @@ const withAudioPlayer = (WrappedComponent) => {
 			const isSongChanged = nextSongId !== prevSongId
 			const isPlayChanged = prevIsPlaying !== nextIsPlaying
 			const isPlaying 		= nextIsPlaying
-			console.log(playBtn)
 			// console.log(audio.__proto__.__proto__)
-			if (isSongChanged) song.scrollIntoView({ block: "center", behavior: "smooth" })
 			if (isSongChanged) audio.play()
 			if (isSongChanged) playBtn.focus()
+			if (isSongChanged) song.scrollIntoView({ block: "center", behavior: "smooth" })
 			if (isPlayChanged) isPlaying ? audio.play() : audio.pause()
 		}
 
