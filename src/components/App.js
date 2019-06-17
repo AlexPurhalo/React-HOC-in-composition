@@ -19,12 +19,26 @@ const Wrapper = styled.section`
   margin: 0;
 `
 
-const App = (props, ref) => (
-	<Wrapper>
-		<SearchBar {...props} />
-		<SongsList {...props} ref={ref} />
-		<Player    {...props} ref={ref} />
-	</Wrapper>
-)
+const prepareSongId = (songs, songId) => songId || (songs.length && songs[0].id)
+
+const preparePlayingTime = (time) => {
+	const minutes = Math.floor(time/60)
+	const seconds = Math.floor(time%60)
+	return `${minutes}:${seconds}`.replace(/^(\d):(\d+)/, `0$1:$2`)
+}
+
+const App = (props, ref) => {
+	const songId 			= prepareSongId(props.songs, props.songId)
+	const currentTime = preparePlayingTime(props.currentTime)
+	const duration 		= preparePlayingTime(props.duration)
+	const nextProps 	= {...props, songId, currentTime, duration}
+	return (
+		<Wrapper>
+			<SearchBar {...nextProps}					  />
+			<SongsList {...nextProps} ref={ref} />
+			<Player    {...nextProps} ref={ref} />
+		</Wrapper>
+	)
+}
 
 export default React.forwardRef(App)

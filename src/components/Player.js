@@ -32,7 +32,6 @@ const NextTrackButton = styled(PlayerButton)`
 	width: 43px;
   height: 31px;
   margin-left: 15px;
-
 `
 
 const PrevTrackButton = styled(PlayerButton)`
@@ -45,7 +44,19 @@ const PrevTrackButton = styled(PlayerButton)`
 
 const DurationSection = styled.section`
 	font-size: 20px;
-	margin-left: 20px;
+	margin: 0 20px;
+`
+
+const ProgressBar = styled.div`
+	width: 50%;
+	height: 10px;
+	background-color: black;
+`
+
+const ActiveProgressBar = styled.div`
+	width: 10%;
+	height: 10px;
+	background-color: #7abedd;
 `
 
 const Player = ({ currentTime, duration, isPlaying, songs, songId, handlePlayingState, handleSongChoice }, { audioRef }) => {
@@ -59,14 +70,9 @@ const Player = ({ currentTime, duration, isPlaying, songs, songId, handlePlaying
 			{prevSong && <PrevTrackButton onClick={() => handleSongChoice(prevSong.id, true)}/>}
 			{<PlayButton autoFocus onClick={() => handlePlayingState(!isPlaying)} {...{isPlaying: !isPlaying}}/>}
 			{nextSong && <NextTrackButton onClick={() => handleSongChoice(nextSong.id, true)}/>}
-			<DurationSection>
-				{Math.floor(currentTime/60)}:{Math.floor(currentTime%60)}
-			</DurationSection>
-			{duration && (
-				<DurationSection>
-					{Math.floor(duration/60)}:{Math.floor(duration%60)}
-				</DurationSection>
-			)}
+			<DurationSection>{currentTime}</DurationSection>
+			<ProgressBar><ActiveProgressBar /></ProgressBar>
+			<DurationSection>{duration}</DurationSection>
 		</Footer>
 	)
 }

@@ -3,6 +3,7 @@ import React, {Component} from 'react'
 const withActions = (WrappedComponent) => {
 	return class extends Component {
 		state= { songId: null, isPlaying: false, duration: 0, currentTime: 0 }
+
 		audioRef = React.createRef()
 		songRef = React.createRef()
 
@@ -18,7 +19,7 @@ const withActions = (WrappedComponent) => {
 			const { current: audio } = this.audioRef
 
 			audio.addEventListener("timeupdate", (e) => {
-				this.setState({ currentTime: e.target.currentTime, })
+				this.setState({ currentTime: e.target.currentTime })
 			})
 
 			audio.onloadedmetadata = (e) => {
@@ -44,20 +45,18 @@ const withActions = (WrappedComponent) => {
 		}
 
 		render() {
-			const { songId, isPlaying, duration, currentTime} = this.state
-			const { songs } = this.props
-			const { audioRef, songRef } = this
+			const actions = {
+				handleSongChoice: this.handleSongChoice,
+				handlePlayingState: this.handlePlayingState
+			}
+
+			const ref = {
+				audioRef: this.audioRef,
+				songRef: this.songRef
+			}
+
 			return (
-				<WrappedComponent
-					{...this.props}
-					songId={songId || (songs.length && songs[0].id)}
-					isPlaying={isPlaying}
-					duration={duration}
-					currentTime={currentTime}
-					handleSongChoice={this.handleSongChoice}
-					handlePlayingState={this.handlePlayingState}
-					ref={{audioRef, songRef}}
-				/>
+				<WrappedComponent {...{...this.props, ...this.state, ...actions, ref}} />
 			)
 		}
 	}
