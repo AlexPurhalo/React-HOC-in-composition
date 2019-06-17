@@ -43,7 +43,12 @@ const PrevTrackButton = styled(PlayerButton)`
   margin-right: 15px;
 `
 
-const Player = ({ isPlaying, songs, songId, handlePlayingState, handleSongChoice }, { audioRef }) => {
+const DurationSection = styled.section`
+	font-size: 20px;
+	margin-left: 20px;
+`
+
+const Player = ({ currentTime, duration, isPlaying, songs, songId, handlePlayingState, handleSongChoice }, { audioRef }) => {
 	const song = songs.find(({ id }) => id === songId)
 	const songIdx = songs.indexOf(song)
 	const prevSong = songs[songIdx-1]
@@ -52,8 +57,16 @@ const Player = ({ isPlaying, songs, songId, handlePlayingState, handleSongChoice
 		<Footer>
 			<audio src={song && song.audio} ref={audioRef}  />
 			{prevSong && <PrevTrackButton onClick={() => handleSongChoice(prevSong.id, true)}/>}
-			<PlayButton autoFocus onClick={() => handlePlayingState(!isPlaying)} {...{isPlaying: !isPlaying}}/>
+			{<PlayButton autoFocus onClick={() => handlePlayingState(!isPlaying)} {...{isPlaying: !isPlaying}}/>}
 			{nextSong && <NextTrackButton onClick={() => handleSongChoice(nextSong.id, true)}/>}
+			<DurationSection>
+				{Math.floor(currentTime/60)}:{Math.floor(currentTime%60)}
+			</DurationSection>
+			{duration && (
+				<DurationSection>
+					{Math.floor(duration/60)}:{Math.floor(duration%60)}
+				</DurationSection>
+			)}
 		</Footer>
 	)
 }
