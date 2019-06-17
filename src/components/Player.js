@@ -1,7 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 import styled from 'styled-components';
-
-const compose = (...rest) => x => rest.reduceRight((y, f) => f(y), x)
 
 const Footer = styled.footer`
 	background: white;
@@ -11,22 +9,14 @@ const Footer = styled.footer`
 	justify-content: center;
 `
 
-const getSongId = ({ songs, songId }) => ({
-	songId: songId || (songs.length && songs[0].id),
-	songs
-})
-
-const getSong = ({ songs, songId }) => songs.find(({ id }) => id === songId)
-
-class Player extends Component {
-	render() {
-		const song = compose(getSong, getSongId)(this.props)
-		return (
-			<Footer>
-				{song && <audio src={song && song.audio} controls={true}/>}
-			</Footer>
-		)
-	}
+const Player = ({ songs, songId }, { audioRef }) => {
+	console.log(audioRef)
+	const song = songs.find(({ id }) => id === songId)
+	return (
+		<Footer>
+			<audio src={song && song.audio} controls={true} ref={audioRef} />
+		</Footer>
+	)
 }
 
-export default Player
+export default React.forwardRef(Player)

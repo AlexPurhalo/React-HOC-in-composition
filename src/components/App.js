@@ -19,12 +19,12 @@ const Wrapper = styled.section`
   margin: 0;
 `
 
-const App = (props) => (
+const App = (props, ref) => (
 	<Wrapper>
 		<SearchBar {...props} />
 		<SongsList {...props} />
-		<Player    {...props} />
+		<Player    {...props} ref={ref} />
 	</Wrapper>
 )
 
-export default App
+export default React.forwardRef(App)
