@@ -1,7 +1,21 @@
-import React from 'react'
+import React, { Component, forwardRef } from 'react'
 
 const withLogs = (WrappedComponent) => {
-	return (props) => console.log(props) || <WrappedComponent {...props} />
+	class WithLogs extends Component {
+		componentDidUpdate(prevProps) {
+			console.log('old props:', prevProps);
+			console.log('new props:', this.props);
+		}
+
+		render() {
+			const {forwardedRef, ...rest} = this.props;
+			return <WrappedComponent ref={forwardedRef} {...rest} />;
+		}
+	}
+
+	return forwardRef((props, ref) => {
+		return <WithLogs {...props} forwardedRef={ref} />
+	})
 }
 
 export default withLogs
