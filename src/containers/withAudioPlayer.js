@@ -28,7 +28,6 @@ const withAudioPlayer = (WrappedComponent) => {
 		}
 
 		render() {
-			console.log(this.props.forwardedRef.playBtn.current)
 			const { songId } = this.state, { songs } = this.props.data
 
 			const actions = {
