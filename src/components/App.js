@@ -19,17 +19,12 @@ const Wrapper = styled.section`
   margin: 0;
 `
 
-const prepareSongId = (songs, songId) => songId || (songs.length && songs[0].id)
-
-const App = (props, ref) => {
-	const nextProps = {...props, songId: prepareSongId(props.songs, props.songId)}
-	return (
-		<Wrapper>
-			<SearchBar {...nextProps}					  />
-			<SongsList {...nextProps} ref={ref} />
-			<Player    {...nextProps} ref={ref} />
-		</Wrapper>
-	)
-}
+const App = (props, ref) => (
+	<Wrapper>
+		<SearchBar {...props}	/>
+		<SongsList {...{...props, ref}} />
+		<Player    {...{...props, ref}} />
+	</Wrapper>
+)
 
 export default React.forwardRef(App)

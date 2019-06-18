@@ -41,7 +41,7 @@ const withAudioPlayer = (WrappedComponent) => {
 			const song    = this.props.forwardedRef.songRef.current
 			const playBtn = this.props.forwardedRef.playBtn.current
 
-			const isSongChanged = nextSongId !== prevSongId
+			const isSongChanged = song && nextSongId !== prevSongId
 			const isPlayChanged = prevIsPlaying !== nextIsPlaying
 			const isPlaying 		= nextIsPlaying
 
@@ -52,20 +52,21 @@ const withAudioPlayer = (WrappedComponent) => {
 		}
 
 		render () {
-			const { forwardedRef, ...restProps } = this.props;
+			const { forwardedRef, ...restProps } = this.props
+
 			return (
-				<WrappedComponent
-					{...restProps}
-					{...this.state}
-					ref={forwardedRef}
-					handleCurrTimeUpdate={this.handleCurrTimeUpdate}
-				/>
+				<WrappedComponent {...{
+					...restProps,
+					...this.state,
+					ref: forwardedRef,
+					handleCurrTimeUpdate: this.handleCurrTimeUpdate
+				}} />
 			)
 		}
 	}
 
 	return forwardRef((props, ref) => (
-		<WithAudioPlayer {...props} forwardedRef={ref} />
+		<WithAudioPlayer {...{...props, forwardedRef: ref}} />
 	))
 }
 

@@ -13,13 +13,20 @@ const withActions = (WrappedComponent) => {
 		}
 
 		render() {
+			const { songId } = this.state, { songs } = this.props
+
 			const actions = {
 				handleSongChoice: this.handleSongChoice,
 				handlePlayingState: this.handlePlayingState
 			}
 
 			return (
-				<WrappedComponent {...{...this.props, ...this.state, ...actions}} />
+				<WrappedComponent {...{
+					...this.props,
+					...actions,
+					...this.state,
+					songId: songId || (songs.length && songs[0].id)
+				}} />
 			)
 		}
 	}
