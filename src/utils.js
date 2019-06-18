@@ -15,3 +15,11 @@ export const findNextSong = (songs, song) => songs[songs.indexOf(song)+1]
 export const findPrevSong = (songs, song) => songs[songs.indexOf(song)-1]
 
 export const findCurrBarWidth = (currTime, duration, barSize) => duration && currTime * barSize / duration
+
+export const searchForTracks = (songs, search) => {
+	if (search.length < 3) return songs
+	return songs.filter(({ artist, title }) => {
+		const regexp = new RegExp(search, 'i')
+		return regexp.test(artist) || regexp.test(title)
+	})
+}

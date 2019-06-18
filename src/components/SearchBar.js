@@ -21,9 +21,14 @@ const Input = styled.input`
 	&:focus { outline: 0 };
 `
 
-const SearchBar = () => (
+const SearchBar = ({ data: { search }, actions: { handleTracksSearch }}) => (
 	<Header>
-		<Input type="text" placeholder="start typing for tracks" />
+		<Input
+			value={search}
+			type="text"
+			placeholder="start typing for tracks"
+			onChange={e => handleTracksSearch(e.target.value)}
+		/>
 	</Header>
 )
 

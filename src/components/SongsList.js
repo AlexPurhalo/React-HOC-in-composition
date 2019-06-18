@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { searchForTracks } from '../utils'
 
 const ListItem = styled.div`
 	display: flex;
@@ -61,12 +62,14 @@ const SongTitle = styled.div`
 `
 
 const SongsList = ({ data, actions }, ref) => {
-	const { songs, songId, isPlaying } = data
+	const { songs, songId, isPlaying, search } = data
 	const { handleSongChoice } = actions
 	const { songRef } = ref
+	const foundSongs = searchForTracks(songs, search)
+	console.log(foundSongs.length)
 	return (
 		<ContentList id="content">
-			{songs && songs.map(({ id, picture, title, artist}) => {
+			{foundSongs && foundSongs.map(({ id, picture, title, artist}) => {
 				const isActive = isPlaying && songId === id
 				return (
 					<ListItem key={id} onClick={() => handleSongChoice(id, !isActive)}>

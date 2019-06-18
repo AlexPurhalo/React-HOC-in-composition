@@ -2,7 +2,11 @@ import React, { Component, forwardRef } from 'react'
 
 const withAudioPlayer = (WrappedComponent) => {
 	class WithPlayer extends Component {
-		state = { songId: null, isPlaying: false }
+		state = { songId: null, isPlaying: false, search: '' }
+
+		handleTracksSearch = (search) => {
+			this.setState({ search })
+		}
 
 		handleSongChoice = (songId, isPlaying) => {
 			this.setState({ songId, isPlaying })
@@ -37,12 +41,13 @@ const withAudioPlayer = (WrappedComponent) => {
 
 			const actions = {
 				handleSongChoice: this.handleSongChoice,
-				handlePlayingState: this.handlePlayingState
+				handlePlayingState: this.handlePlayingState,
+				handleTracksSearch: this.handleTracksSearch
 			}
 
 			const data = {
 				...this.props.data,
-				isPlaying: this.state.isPlaying,
+				...this.state,
 				songId: songId || (songs.length && songs[0].id)
 			}
 
