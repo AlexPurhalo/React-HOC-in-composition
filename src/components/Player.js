@@ -63,7 +63,12 @@ const ActiveProgressBar = styled.div`
 const preparePlayingTime = (time) => {
 	const minutes = Math.floor(time/60)
 	const seconds = Math.floor(time%60)
-	return `${minutes}:${seconds}`.replace(/^(\d):(\d+)/, `0$1:$2`)
+	const adjustTimeStr = (_, p1, p2) => {
+		const nextP1 = p1.length < 2 ? 0+p1 : p1
+		const nextP2 = p2.length < 2 ? 0+p2 : p2
+		return `${nextP1}:${nextP2}`
+	}
+	return `${minutes}:${seconds}`.replace(/(\d+):(\d+)/g, adjustTimeStr)
 }
 
 const findSong = (songs, songId) => songs.find(({ id }) => id === songId)
