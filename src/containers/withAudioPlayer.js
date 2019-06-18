@@ -1,4 +1,5 @@
 import React, { Component, forwardRef } from 'react'
+import {computeCurrVal} from "../utils"
 
 
 const withAudioPlayer = (WrappedComponent) => {

@@ -14,7 +14,6 @@ export const findNextSong = (songs, song) => songs[songs.indexOf(song)+1]
 
 export const findPrevSong = (songs, song) => songs[songs.indexOf(song)-1]
 
-export const findCurrBarWidth = (currTime, duration, barSize) => duration && currTime * barSize / duration
 
 export const searchForTracks = (songs, search) => {
 	const invalidInput = !/^[\da-zA-Z\s]+$/.test(search)
@@ -24,4 +23,11 @@ export const searchForTracks = (songs, search) => {
 		const regexp = new RegExp(search, 'i')
 		return regexp.test(artist) || regexp.test(title)
 	})
+}
+
+
+export const computeCurrVal = (currX, fullX, fullY) => {
+	// size/fullSize = currAm/fullAm
+	// size = currAm / fullAm * fullSize
+	return fullX && currX / fullX * fullY
 }

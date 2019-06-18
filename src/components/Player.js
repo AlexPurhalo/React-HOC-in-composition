@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import {
 	compose,
 	preparePlayingTime,
-	findCurrBarWidth,
+	computeCurrVal,
 	findNextSong,
 	findPrevSong,
 	findSong ,
@@ -36,7 +36,7 @@ const PlayButton = styled(PlayerButton)`
 `
 
 const NextTrackButton = styled(PlayerButton)`
-	background-image url(next-track.png);
+	background-image: url(next-track.png);
 	background-size: cover;
 	width: 43px;
   height: 31px;
@@ -44,7 +44,7 @@ const NextTrackButton = styled(PlayerButton)`
 `
 
 const PrevTrackButton = styled(PlayerButton)`
-	background-image url(prev-track.png);
+	background-image: url(prev-track.png);
 	background-size: cover;
 	width: 43px;
   height: 31px;
@@ -69,15 +69,39 @@ const ActiveProgressBar = styled.div`
 	background-color: #7abedd;
 `
 
+const VolumeImg = styled.div`
+	width: 20px;
+	height: 20px;
+	background-image: url(volume.png);
+	background-size: cover;
+	margin: 0 10px;
+	cursor: pointer;
+`
+
+const VolumeBar = styled.div`
+	width: 100px;
+	height: 10px;
+	background-color: black;
+	cursor: pointer;
+`
+const VolumeInnerBar = styled.div`
+	width: ${({ width }) => width}px;
+	height: 100%;
+	background-color: #7abedd;
+`
+
+
 const Player = ({ data, actions }, ref) => {
-	const { currentTime, duration, isPlaying, songs, songId } = data
-	const { handlePlayingState, handleSongChoice, handleCurrTimeUpdate } = actions
-	const { audioRef, progressBarRef, playBtn } = ref
+	const { currentTime, duration, isPlaying, songs, songId, volume } = data
+	const { handlePlayingState, handleSongChoice, handleCurrTimeUpdate, handleVolumeSize } = actions
+	const { audioRef, progressBarRef, playBtn, volumeBar } = ref
 	const barSize = progressBarRef.current ? progressBarRef.current.offsetWidth : 0
+	const volSize = volumeBar.current ? volumeBar.current.offsetWidth : 0
 	const song = findSong(songs, songId), prevSong = findPrevSong(songs, song), nextSong = findNextSong(songs, song)
-	const currBarWidth = findCurrBarWidth(currentTime, duration, barSize)
+	const currBarWidth = computeCurrVal(currentTime, duration, barSize)
 	const currTimeStr = compose(adjustTimeStr, preparePlayingTime)(currentTime)
 	const durationStr = compose(adjustTimeStr, preparePlayingTime)(duration)
+	const currVolumeWidth = computeCurrVal(volume, 1, volSize)
 	return (
 		<Footer>
 			<audio src={song && song.audio} ref={audioRef}  />
@@ -97,6 +121,10 @@ const Player = ({ data, actions }, ref) => {
 				<ActiveProgressBar width={currBarWidth}/>
 			</ProgressBar>
 			<DurationSection>{durationStr}</DurationSection>
+			<VolumeImg />
+			<VolumeBar onClick={e => handleVolumeSize(e)} ref={volumeBar}>
+				<VolumeInnerBar width={currVolumeWidth}/>
+			</VolumeBar>
 		</Footer>
 	)
 }

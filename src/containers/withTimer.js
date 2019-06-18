@@ -1,4 +1,6 @@
 import React, { Component, forwardRef } from 'react'
+import { computeCurrVal } from '../utils'
+
 
 const withTimer = (WrappedComponent) => {
 	class WithTimer extends Component {
@@ -9,7 +11,7 @@ const withTimer = (WrappedComponent) => {
 			const audio = this.props.forwardedRef.audioRef.current
 			const playBtn = this.props.forwardedRef.playBtn.current
 			const mouseX = e.pageX - bar.offsetLeft
-			audio.currentTime = mouseX / bar.offsetWidth * this.state.duration
+			audio.currentTime = computeCurrVal(mouseX, bar.offsetWidth, this.state.duration)
 			playBtn.focus()
 		}
 

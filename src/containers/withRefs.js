@@ -6,7 +6,8 @@ const withRefs = (WrappedComponent) => props => (
 			audioRef: createRef(),
 			songRef: createRef(),
 			progressBarRef: createRef(),
-			playBtn: createRef()
+			playBtn: createRef(),
+			volumeBar: createRef()
 		}}} />
 )
 
