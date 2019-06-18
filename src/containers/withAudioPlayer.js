@@ -11,10 +11,13 @@ const withAudioPlayer = (WrappedComponent) => {
 
 		handleSongChoice = (songId, isPlaying) => {
 			this.setState({ songId, isPlaying }, () => {
-				this.props.forwardedRef.playBtn.current.focus()
-				this.props.forwardedRef.songRef.current.scrollIntoView({ block: "center", behavior: "smooth" })
-				this.props.forwardedRef.audioRef.current[isPlaying ? 'play' : 'pause']()
+				const btn = this.props.forwardedRef.playBtn.current
+				const song = this.props.forwardedRef.songRef.current
+				const audio = this.props.forwardedRef.audioRef.current
 
+				btn.focus()
+				song && song.scrollIntoView({ block: "center", behavior: "smooth" })
+				audio[isPlaying ? 'play' : 'pause']()
 			})
 		}
 
@@ -25,6 +28,7 @@ const withAudioPlayer = (WrappedComponent) => {
 		}
 
 		render() {
+			console.log(this.props.forwardedRef.playBtn.current)
 			const { songId } = this.state, { songs } = this.props.data
 
 			const actions = {
