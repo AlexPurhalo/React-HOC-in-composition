@@ -1,6 +1,5 @@
 import React, { Component, forwardRef } from 'react'
-
-const computeBarWidth = (bar) => bar ? parseInt(getComputedStyle(bar).width) : 0
+import { computeBarWidth } from '../utils'
 
 const withAudioPlayer = (WrappedComponent) => {
 	class WithAudioPlayer extends Component {
@@ -31,10 +30,11 @@ const withAudioPlayer = (WrappedComponent) => {
 			}
 		}
 
-		componentDidUpdate(prevProps) {
+		componentDidUpdate(prevProps, prevState) {
+			console.log(prevState)
 			// TODO: handle "audio.onended" action
 			// 		 	to update the playing state and run the next song
-			const { songId: nextSongId, isPlaying: nextIsPlaying } = this.props
+			const { songId: nextSongId, isPlaying: nextIsPlaying } = this.props.data
 			const { songId: prevSongId, isPlaying: prevIsPlaying } = prevProps
 
 			const audio   = this.props.forwardedRef.audioRef.current
@@ -44,7 +44,7 @@ const withAudioPlayer = (WrappedComponent) => {
 			const isSongChanged = song && nextSongId !== prevSongId
 			const isPlayChanged = prevIsPlaying !== nextIsPlaying
 			const isPlaying 		= nextIsPlaying
-
+			console.log(isPlaying)
 			if (isSongChanged) audio.play()
 			if (isSongChanged) playBtn.focus()
 			if (isSongChanged) song.scrollIntoView({ block: "center", behavior: "smooth" })
@@ -52,16 +52,11 @@ const withAudioPlayer = (WrappedComponent) => {
 		}
 
 		render () {
-			const { forwardedRef, ...restProps } = this.props
-
-			return (
-				<WrappedComponent {...{
-					...restProps,
-					...this.state,
-					ref: forwardedRef,
-					handleCurrTimeUpdate: this.handleCurrTimeUpdate
-				}} />
-			)
+			const data = {...this.props.data, ...this.state}
+			const nextActions = { handleCurrTimeUpdate: this.handleCurrTimeUpdate }
+			const actions = {...this.props.actions, ...nextActions }
+			const ref = this.props.forwardedRef
+			return <WrappedComponent {...{data, actions, ref}} />
 		}
 	}
 

@@ -12,7 +12,7 @@ const withSongs = (WrappedComponent) => {
 				.then(songs => this.setState({songs}))
 		}
 		render() {
-			return <WrappedComponent {...{...this.props, songs: this.state.songs}} />
+			return <WrappedComponent {...{data: { songs: this.state.songs } }} />
 		}
 	}
 }

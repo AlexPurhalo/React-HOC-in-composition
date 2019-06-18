@@ -60,23 +60,28 @@ const SongTitle = styled.div`
 	font-weight: ${({ isActive }) => isActive ? 900 : 400};
 `
 
-const SongsList = ({ songs, songId, isPlaying, handleSongChoice }, { songRef }) => (
-	<ContentList id="content">
-		{songs && songs.map(({ id, picture, title, artist}) => {
-			const isActive = isPlaying && songId === id
-			return (
-				<ListItem key={id} onClick={() => handleSongChoice(id, !isActive)}>
-					<div ref={isActive ? songRef : null}>
-						<Picture isActive={isActive} picture={picture}>
-							<PlayButton isActive={isActive} />
-						</Picture>
-						<ArtistTitle isActive={isActive}>{artist}</ArtistTitle>
-						<SongTitle isActive={isActive}>{title}</SongTitle>
-					</div>
-				</ListItem>
-			)
-		})}
-	</ContentList>
-)
+const SongsList = ({ data, actions }, ref) => {
+	const { songs, songId, isPlaying } = data
+	const { handleSongChoice } = actions
+	const { songRef } = ref
+	return (
+		<ContentList id="content">
+			{songs && songs.map(({ id, picture, title, artist}) => {
+				const isActive = isPlaying && songId === id
+				return (
+					<ListItem key={id} onClick={() => handleSongChoice(id, !isActive)}>
+						<div ref={isActive ? songRef : null}>
+							<Picture isActive={isActive} picture={picture}>
+								<PlayButton isActive={isActive} />
+							</Picture>
+							<ArtistTitle isActive={isActive}>{artist}</ArtistTitle>
+							<SongTitle isActive={isActive}>{title}</SongTitle>
+						</div>
+					</ListItem>
+				)
+			})}
+		</ContentList>
+	)
+}
 
 export default React.forwardRef(SongsList)

@@ -1,5 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
+import {
+	compose,
+	preparePlayingTime,
+	findCurrBarWidth,
+	findNextSong,
+	findPrevSong,
+	findSong ,
+	adjustTimeStr
+} from '../utils'
 
 const Footer = styled.footer`
 	background: white;
@@ -60,29 +69,14 @@ const ActiveProgressBar = styled.div`
 	background-color: #7abedd;
 `
 
-const preparePlayingTime = (time) => {
-	const minutes = Math.floor(time/60)
-	const seconds = Math.floor(time%60)
-	const adjustTimeStr = (_, p1, p2) => {
-		const nextP1 = p1.length < 2 ? 0+p1 : p1
-		const nextP2 = p2.length < 2 ? 0+p2 : p2
-		return `${nextP1}:${nextP2}`
-	}
-	return `${minutes}:${seconds}`.replace(/(\d+):(\d+)/g, adjustTimeStr)
-}
-
-const findSong = (songs, songId) => songs.find(({ id }) => id === songId)
-const findNextSong = (songs, song) 	 => songs[songs.indexOf(song)+1]
-const findPrevSong = (songs, song) 	 => songs[songs.indexOf(song)-1]
-const findCurrBarWidth = (currTime, duration, barSize) => duration && currTime * barSize / duration
-
-const Player = (props, ref) => {
-	const { currentTime, duration, isPlaying, songs, songId, handlePlayingState, handleSongChoice, barSize, handleCurrTimeUpdate } = props
-	const { audioRef, progressBarRef, playBtn 																														 } = ref
-
+const Player = ({ data, actions }, ref) => {
+	const { currentTime, duration, isPlaying, songs, songId, barSize } = data
+	const { handlePlayingState, handleSongChoice, handleCurrTimeUpdate } = actions
+	const { audioRef, progressBarRef, playBtn } = ref
 	const song = findSong(songs, songId), prevSong = findPrevSong(songs, song), nextSong = findNextSong(songs, song)
 	const currBarWidth = findCurrBarWidth(currentTime, duration, barSize)
-
+	const currTimeStr = compose(adjustTimeStr, preparePlayingTime)(currentTime)
+	const durationStr = compose(adjustTimeStr, preparePlayingTime)(duration)
 	return (
 		<Footer>
 			<audio src={song && song.audio} ref={audioRef}  />
@@ -97,11 +91,11 @@ const Player = (props, ref) => {
 			{nextSong && (
 				<NextTrackButton onClick={() => handleSongChoice(nextSong.id, true)}/>
 			)}
-			<DurationSection>{preparePlayingTime(currentTime)}</DurationSection>
+			<DurationSection>{currTimeStr}</DurationSection>
 			<ProgressBar onClick={e => handleCurrTimeUpdate(e, barSize)} ref={progressBarRef}>
 				<ActiveProgressBar width={currBarWidth}/>
 			</ProgressBar>
-			<DurationSection>{preparePlayingTime(duration)}</DurationSection>
+			<DurationSection>{durationStr}</DurationSection>
 		</Footer>
 	)
 }
