@@ -1,6 +1,6 @@
-import withSongs       from './withSongs'
-import withActions     from './withActions'
+import withSongs from './withSongs'
 import withAudioPlayer from './withAudioPlayer'
-import withRefs				 from './withRefs'
+import withTimer from './withTimer'
+import withRefs from './withRefs'
 
-export { withSongs, withActions, withAudioPlayer, withRefs }
+export { withSongs, withAudioPlayer, withTimer, withRefs }

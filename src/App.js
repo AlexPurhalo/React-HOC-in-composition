@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react'
 import styled from 'styled-components'
-import { withSongs, withActions, withAudioPlayer, withRefs } from './containers'
+import { withSongs, withAudioPlayer, withTimer, withRefs } from './containers'
 import { SearchBar, SongsList, Player } from './components'
 import { compose } from './utils'
 
@@ -27,4 +27,4 @@ const App = (props, ref) => (
 	</Wrapper>
 )
 
-export default compose(withSongs, withActions, withRefs, withAudioPlayer, forwardRef)(App)
+export default compose(withSongs, withRefs, withAudioPlayer, withTimer, forwardRef)(App)
