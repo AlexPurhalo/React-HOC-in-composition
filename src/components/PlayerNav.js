@@ -45,17 +45,13 @@ const PlayerNav = ({ data, actions }, ref) => {
 	return (
 		<Fragment>
 			<audio src={song && song.audio} ref={audioRef}  />
-			{prevSong && (
-				<PrevTrackButton onClick={() => handleSongChoice(prevSong.id, true)}/>
-			)}
+			<PrevTrackButton onClick={() => handleSongChoice(prevSong.id, true)}/>
 			<PlayButton
 				ref={playBtn}
 				autoFocus isPlaying={!isPlaying}
 				onClick={() => handlePlayingState(!isPlaying)}
 			/>
-			{nextSong && (
-				<NextTrackButton onClick={() => handleSongChoice(nextSong.id, true)}/>
-			)}
+			<NextTrackButton onClick={() => handleSongChoice(nextSong.id, true)}/>
 		</Fragment>
 	)
 }
