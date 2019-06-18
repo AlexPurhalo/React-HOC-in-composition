@@ -66,7 +66,6 @@ const SongsList = ({ data, actions }, ref) => {
 	const { handleSongChoice } = actions
 	const { songRef } = ref
 	const foundSongs = searchForTracks(songs, search)
-	console.log(foundSongs.length)
 	return (
 		<ContentList id="content">
 			{foundSongs && foundSongs.map(({ id, picture, title, artist}) => {

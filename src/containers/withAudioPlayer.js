@@ -1,5 +1,6 @@
 import React, { Component, forwardRef } from 'react'
 
+
 const withAudioPlayer = (WrappedComponent) => {
 	class WithPlayer extends Component {
 		state = { songId: null, isPlaying: false, search: '' }
@@ -9,31 +10,18 @@ const withAudioPlayer = (WrappedComponent) => {
 		}
 
 		handleSongChoice = (songId, isPlaying) => {
-			this.setState({ songId, isPlaying })
+			this.setState({ songId, isPlaying }, () => {
+				this.props.forwardedRef.playBtn.current.focus()
+				this.props.forwardedRef.songRef.current.scrollIntoView({ block: "center", behavior: "smooth" })
+				this.props.forwardedRef.audioRef.current[isPlaying ? 'play' : 'pause']()
+
+			})
 		}
 
 		handlePlayingState = (isPlaying) => {
-			this.setState({ isPlaying })
-		}
-
-		componentDidUpdate(prevProps, prevState) {
-			// TODO: handle "audio.onended" action
-			// 		 	to update the playing state and run the next song
-			const { songId: nextSongId, isPlaying: nextIsPlaying } = this.state
-			const { songId: prevSongId, isPlaying: prevIsPlaying } = prevProps
-
-			const audio   = this.props.forwardedRef.audioRef.current
-			const song    = this.props.forwardedRef.songRef.current
-			const playBtn = this.props.forwardedRef.playBtn.current
-
-			const isSongChanged = song && nextSongId !== prevSongId
-			const isPlayChanged = prevIsPlaying !== nextIsPlaying
-			const isPlaying 		= nextIsPlaying
-
-			if (isSongChanged) audio.play()
-			if (isSongChanged) playBtn.focus()
-			if (isSongChanged) song.scrollIntoView({ block: "center", behavior: "smooth" })
-			if (isPlayChanged) isPlaying ? audio.play() : audio.pause()
+			this.setState({ isPlaying }, () => {
+				this.props.forwardedRef.audioRef.current[isPlaying ? 'play' : 'pause']()
+			})
 		}
 
 		render() {

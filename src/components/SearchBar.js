@@ -18,7 +18,10 @@ const Input = styled.input`
 	border: solid 2px #e25f5fa1;
 	border-bottom: solid 2px inherit;
 	text-align: center;
-	&:focus { outline: 0 };
+	&:focus { outline: 0; };
+	::placeholder {
+		opacity: 0.3 
+	}
 `
 
 const SearchBar = ({ data: { search }, actions: { handleTracksSearch }}) => (
@@ -26,7 +29,7 @@ const SearchBar = ({ data: { search }, actions: { handleTracksSearch }}) => (
 		<Input
 			value={search}
 			type="text"
-			placeholder="start typing for tracks"
+			placeholder="Start typing for tracks"
 			onChange={e => handleTracksSearch(e.target.value)}
 		/>
 	</Header>
