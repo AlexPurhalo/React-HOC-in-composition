@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import styled from 'styled-components'
 import { withSongs, withAudioPlayer, withTimer, withRefs, withVolume } from './containers'
-import { SearchBar, SongsList, Player } from './components'
+import { SearchBar, SongsList, PlayerNav, ProgressBar, VolumeBar } from './components'
 import { compose } from './utils'
 
 const Wrapper = styled.section`
@@ -19,11 +19,23 @@ const Wrapper = styled.section`
   margin: 0;
 `
 
+const Footer = styled.footer`
+	background: white;
+	grid-area: footer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+`
+
 const App = (props, ref) => (
 	<Wrapper>
 		<SearchBar {...props}	/>
 		<SongsList {...{...props, ref}} />
-		<Player    {...{...props, ref}} />
+		<Footer>
+			<PlayerNav {...{...props, ref}} />
+			<ProgressBar {...{...props, ref}} />
+			<VolumeBar {...{...props, ref}} />
+		</Footer>
 	</Wrapper>
 )
 

@@ -1,5 +1,7 @@
-import Player    			 			from './Player'
-import SongsList 			 			from './SongsList'
-import SearchBar 			 			from './SearchBar'
+import SongsList   from './SongsList'
+import SearchBar   from './SearchBar'
+import PlayerNav   from './PlayerNav'
+import ProgressBar from './ProgressBar'
+import VolumeBar   from './VolumeBar'
 
-export { Player, SongsList, SearchBar }
+export { SongsList, SearchBar, VolumeBar, PlayerNav, ProgressBar }
