@@ -15,16 +15,11 @@ export const findNextSong = (songs, song) => songs[songs.indexOf(song)+1]
 export const findPrevSong = (songs, song) => songs[songs.indexOf(song)-1]
 
 
-export const searchForTracks = (songs, search) => {
-	const invalidInput = !/^[\da-zA-Z\s]+$/.test(search)
-	if (search.length < 3) return songs
-	if (invalidInput) return []
-	return songs.filter(({ artist, title }) => {
-		const regexp = new RegExp(search, 'i')
-		return regexp.test(artist) || regexp.test(title)
-	})
-}
+export const prepSearchRegexp = (search) =>
+	new RegExp(search.replace(/\\/g, ''), 'i')
 
+export const searchForTracks = (songs, regexp) =>
+	songs.filter(({ artist, title }) => regexp.test(artist) || regexp.test(title))
 
 export const computeCurrVal = (currX, fullX, fullY) => {
 	// size/fullSize = currAm/fullAm

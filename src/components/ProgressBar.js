@@ -33,7 +33,7 @@ const ProgressBar = ({ data, actions }, ref) => {
 	return (
 		<Fragment>
 			<DurationSection>{currTimeStr}</DurationSection>
-			<Bar onClick={e => handleCurrTimeUpdate(e, barSize)} ref={progressBarRef}>
+			<Bar onClick={e => handleCurrTimeUpdate(e)} ref={progressBarRef}>
 				<ActiveBar width={currBarWidth}/>
 			</Bar>
 			<DurationSection>{durationStr}</DurationSection>

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { searchForTracks } from '../utils'
+import { searchForTracks, prepSearchRegexp } from '../utils'
 
 const ListItem = styled.div`
 	display: flex;
@@ -61,14 +61,14 @@ const SongTitle = styled.div`
 	font-weight: ${({ isActive }) => isActive ? 900 : 400};
 `
 
-const SongsList = ({ data, actions }, ref) => {
-	const { songs, songId, isPlaying, search } = data
+const SongsList = ({ data, actions }, { songRef }) => {
+	const { songId, isPlaying, search, songs } = data
 	const { handleSongChoice } = actions
-	const { songRef } = ref
-	const foundSongs = searchForTracks(songs, search)
+	const regexp = prepSearchRegexp(search)
+	const foundSongs = songs.length < 3 ? songs : searchForTracks(songs, regexp)
 	return (
 		<ContentList id="content">
-			{foundSongs && foundSongs.map(({ id, picture, title, artist}) => {
+			{foundSongs.map(({ id, picture, title, artist}) => {
 				const isActive = isPlaying && songId === id
 				return (
 					<ListItem key={id} onClick={() => handleSongChoice(id, !isActive)}>
