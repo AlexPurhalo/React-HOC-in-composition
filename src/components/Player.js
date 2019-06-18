@@ -70,9 +70,10 @@ const ActiveProgressBar = styled.div`
 `
 
 const Player = ({ data, actions }, ref) => {
-	const { currentTime, duration, isPlaying, songs, songId, barSize } = data
+	const { currentTime, duration, isPlaying, songs, songId } = data
 	const { handlePlayingState, handleSongChoice, handleCurrTimeUpdate } = actions
 	const { audioRef, progressBarRef, playBtn } = ref
+	const barSize = progressBarRef.current ? progressBarRef.current.offsetWidth : 0
 	const song = findSong(songs, songId), prevSong = findPrevSong(songs, song), nextSong = findNextSong(songs, song)
 	const currBarWidth = findCurrBarWidth(currentTime, duration, barSize)
 	const currTimeStr = compose(adjustTimeStr, preparePlayingTime)(currentTime)

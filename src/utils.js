@@ -15,5 +15,3 @@ export const findNextSong = (songs, song) => songs[songs.indexOf(song)+1]
 export const findPrevSong = (songs, song) => songs[songs.indexOf(song)-1]
 
 export const findCurrBarWidth = (currTime, duration, barSize) => duration && currTime * barSize / duration
-
-export const computeBarWidth = (bar) => bar ? parseInt(getComputedStyle(bar).width) : 0
